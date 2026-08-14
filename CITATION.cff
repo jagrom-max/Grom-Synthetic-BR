@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software in research, please cite the project and identify the version or commit used."
+title: "Grom Synthetic BR"
+type: software
+authors:
+  - family-names: "Grom"
+    given-names: "Josuel"
+repository-code: "https://github.com/jagrom-max/Grom-Synthetic-BR"
+url: "https://github.com/jagrom-max/Grom-Synthetic-BR"
+license: Apache-2.0
+keywords:
+  - OCR
+  - computer vision
+  - synthetic data
+  - Brazil
+  - reproducible research
