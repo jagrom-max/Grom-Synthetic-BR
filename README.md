@@ -14,6 +14,42 @@ During the development process, the project found extensive international materi
 
 The project therefore aims not only to support its own OCR research, but also to leave a useful, transparent and reusable contribution to the academic, scientific and open-source communities.
 
+## Core purpose: fidelity first, then controlled adversity
+
+Grom Synthetic BR is **not merely a generator of visually correct plates that follow Brazilian regulatory geometry**.
+
+Its central research purpose is to create a high-fidelity canonical Brazilian plate first, then transform that canonical reference into controlled, reproducible and measurable difficult-reading scenarios for OCR training and robustness research.
+
+The intended pipeline is conceptually:
+
+`normative / high-fidelity canonical plate -> controlled visual adversity -> labeled synthetic sample -> OCR training / robustness evaluation`
+
+The project is being designed to model adverse visual conditions such as:
+
+- strong or insufficient illumination;
+- glare, highlights, shadows and uneven exposure;
+- rain and wet-surface effects;
+- fog, haze and atmospheric loss of contrast;
+- dirt, mud, dust and partial contamination;
+- aging, degradation and material wear;
+- faded or damaged characters;
+- partial occlusion;
+- blur and acquisition-related loss of detail;
+- perspective and viewing-angle variation;
+- difficult combinations of glyphs and character spacing;
+- controlled synthetic anomalies representing degradation or possible tampering/adulteration patterns for **defensive OCR robustness research**.
+
+These transformations must not be arbitrary image corruption. Each adversity should be parameterized, versioned and recorded in metadata so that experiments remain reproducible and the exact conditions that produced a sample can be reconstructed.
+
+The objective is deliberately demanding: an OCR system should not learn only from clean, ideal plates. It should be exposed to progressively harder but traceable examples so that robustness can be measured instead of assumed.
+
+The project therefore distinguishes two layers:
+
+1. **Canonical fidelity layer** — generate the cleanest and most defensible Brazilian plate representation possible from documented evidence.
+2. **Adversity / robustness layer** — apply controlled degradations after canonical generation, without silently changing the underlying ground truth.
+
+A degradation must never redefine the plate identity. The original clean plate, its text label, generation parameters and every applied transformation must remain traceable.
+
 ## Why this project exists
 
 Grom Synthetic BR focuses on a problem that is frequently underrepresented in open research assets: **Brazilian-domain synthetic license plate data with explicit methodological, normative and provenance controls**.
@@ -21,6 +57,8 @@ Grom Synthetic BR focuses on a problem that is frequently underrepresented in op
 The project is designed around the following principles:
 
 - reproducible generation;
+- high-fidelity canonical generation before degradation;
+- controlled and traceable adversity simulation for OCR robustness;
 - strict separation between normative facts, engineering assumptions and experimental hypotheses;
 - auditability of every relevant decision;
 - deterministic tests and frozen historical baselines;
@@ -35,10 +73,14 @@ The project is designed around the following principles:
 The intended contribution is broader than a dataset generator. The project is building a documented research framework for:
 
 - synthetic Brazilian license plate generation;
+- high-fidelity canonical reference generation;
+- controlled environmental and visual adversity simulation;
+- curriculum-style generation from clean to progressively difficult samples;
 - OCR-oriented glyph and layout analysis;
 - reproducible stress cases for wide, narrow and easily confused characters;
 - normative-source traceability;
 - spatial-fit and plate-occupancy analysis;
+- generation metadata capable of reconstructing each synthetic transformation;
 - license and asset provenance;
 - deterministic regression testing;
 - controlled progression from laboratory evidence to human-reviewed baselines.
@@ -68,6 +110,7 @@ The current line of work includes:
 - character-width and confused-pair studies;
 - spatial-fit analysis around QR and OCR regions;
 - typographic candidate evaluation;
+- adversity-model architecture for future synthetic robustness generation;
 - deterministic audit reports and regression tests.
 
 Important current constraints:
@@ -75,7 +118,8 @@ Important current constraints:
 - no third-party font is accepted solely because it visually resembles FE Engschrift;
 - third-party fonts with uncertain or restrictive licensing are not redistributed;
 - the current renderer remains an experimental approximation subject to documented review;
-- difficult strings are preserved as stress cases rather than removed from the problem space.
+- difficult strings are preserved as stress cases rather than removed from the problem space;
+- large-scale adversity generation must not begin until canonical geometry is sufficiently stable and reviewed.
 
 ## Validation philosophy
 
@@ -90,6 +134,8 @@ A successful automated gate does not automatically authorize:
 - normative claims.
 
 Human review remains an explicit stage in the research process.
+
+The same rule applies to adversity simulation: visually dramatic samples are not automatically useful training data. Each transformation must preserve label correctness, remain plausible enough for its research purpose and be represented in metadata.
 
 ## Research sentinels
 
@@ -171,6 +217,8 @@ This repository is intended for research, software engineering and lawful comput
 
 Contributions must not include personal data, real-world sensitive investigative records, confidential case material, credentials, private keys or restricted datasets.
 
+Synthetic degradation or tampering-like scenarios are intended exclusively to improve defensive OCR robustness and evaluation; they are not guidance for physically defeating or evading identification systems.
+
 See `SECURITY.md` for vulnerability reporting and responsible disclosure.
 
 ## Governance
@@ -187,9 +235,10 @@ Near-term work includes:
 2. complete spatial-policy and plate-occupancy review;
 3. preserve and publish auditable normative-study artifacts where redistribution is appropriate;
 4. stabilize the canonical generator before large-scale generation;
-5. define versioned dataset releases and reproducible manifests;
-6. publish benchmark methodology independently from training data;
-7. integrate, when appropriate, with Grom OCR Core 3.0 and other independent consumers.
+5. implement a versioned, parameterized adversity engine for illumination, weather, contamination, degradation, wear, blur, perspective and related robustness conditions;
+6. define versioned dataset releases and reproducible manifests;
+7. publish benchmark methodology independently from training data;
+8. integrate, when appropriate, with Grom OCR Core 3.0 and other independent consumers.
 
 ## Disclaimer
 
